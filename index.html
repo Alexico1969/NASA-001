@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NASA-test-001</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        *{font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;}
+        body{
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>NASA test 001</h1>
+    <p>Test-website to see if the NASA API is working properly</p>
+
+    <h4><span>url + parameters:   </span><span id="url"></span></h4>
+    <button id="send">Send API request</button>
+    <h4>response</h4>
+    <p id="response"></p>
+    
+    
+    <script>
+
+        var nasa_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos"
+        //var parameters = "?api_key=VM2f40EQQ0tk58nvmPhpVa6gthc5ma6Chgll56&sol=1000&camera=fhaz"
+        var parameters = "?api_key=DEMO&sol=1000&camera=fhaz"
+
+        var alt_url = "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&camera=fhaz&api_key=DEMO_KEY"
+
+        $("#url").text(alt_url);
+        $("#parameters").text(parameters);
+        
+        $("#send").click(function(){
+            $.ajax({
+                url: alt_url,
+                success : function(result){
+                    $("#response").append("Success !");
+                    $("#response").append("<br>--------------<br>");
+                    
+                    //console.log("result.photos[0]: ", result.photos[0]);
+                    var photo_obj = result.photos[0];
+                    var photo_keys = Object.keys(photo_obj);
+                    var photo_url = result.photos[0]["img_src"];
+                    console.log("output 01: " + photo_url);
+
+                    var image = `<img src="${photo_url}">`;
+
+                    $("#response").append(image);   
+                      
+                    //console.log(result);           
+                },
+                error: function(){
+                    $("#response").text("Error", errorThrown);
+                }
+            })
+        });
+
+    //    https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=1000&camera=fhaz&api_key=VM2f40EQQ0tk58nvmPhpVa6gthc5ma6Chgll56N
+    </script>
+</body>
+</html>
